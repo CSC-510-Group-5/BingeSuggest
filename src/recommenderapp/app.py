@@ -296,6 +296,8 @@ def username():
     """
     Gets the username of the active user
     """
+    if user[1] == "guest":
+        return jsonify("guest")
     return get_username(g.db, user[1])
 
 
@@ -429,7 +431,7 @@ def get_api_key():
     """
     Provides the OMDB API key securely to the frontend.
     """
-    if user[1] is not None and user[1] != "guest":
+    if user[1] is not None:
         return jsonify({"apikey": os.getenv("OMDB_API_KEY")})
     return jsonify({"error": "Unauthorized"}), 403
 
